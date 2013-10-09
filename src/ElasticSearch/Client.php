@@ -192,7 +192,7 @@ class Client {
      *        _refresh_ *bool* If set to true, immediately refresh the shard after indexing
      */
     public function index($document, $id=false, array $options = array()) {
-        if ($this->bulk) {
+        if (isset($this->bulk)) {
             return $this->bulk->index($document, $id, $this->index, $this->type, $options);
         }
         return $this->transport->index($document, $id, $options);
@@ -221,7 +221,7 @@ class Client {
      * @param array $options Parameters to pass to delete action
      */
     public function delete($id=false, array $options = array()) {
-        if ($this->bulk) {
+        if (isset($this->bulk)) {
             return $this->bulk->delete($id, $this->index, $this->type, $options);
         }
         return $this->transport->delete($id, $options);
@@ -299,7 +299,7 @@ class Client {
      */
 
     public function beginBulk() {
-        if (!$this->bulk) {
+        if (!isset($this->bulk)) {
             $this->bulk = $this->createBulk($this);
         }
         return $this->bulk;
@@ -318,7 +318,7 @@ class Client {
      */
 
     public function commitBulk() {
-        if ($this->bulk) {
+        if (isset($this->bulk)) {
             $result = $this->bulk->commit();
             unset ($this->bulk);
             return $result;
