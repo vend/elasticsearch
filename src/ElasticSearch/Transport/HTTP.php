@@ -156,10 +156,11 @@ class HTTP extends Base {
         curl_setopt($conn, CURLOPT_CUSTOMREQUEST, strtoupper($method));
         curl_setopt($conn, CURLOPT_FORBID_REUSE , 0) ;
 
-        if (is_array($payload) && count($payload) > 0)
-            curl_setopt($conn, CURLOPT_POSTFIELDS, json_encode($payload)) ;
-        else
+        if (is_array($payload) && count($payload) > 0) {
+            curl_setopt($conn, CURLOPT_POSTFIELDS, json_encode($payload));
+        } else {
 	       	curl_setopt($conn, CURLOPT_POSTFIELDS, $payload);
+        }
 
         $response = curl_exec($conn);
         if ($response !== false) {
