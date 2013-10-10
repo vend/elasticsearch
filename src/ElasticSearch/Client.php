@@ -153,6 +153,16 @@ class Client {
         return $this->request('_mapping', 'PUT', $mapping->export(), true);
     }
 
+    /**
+     * Create an index from a configuration
+     * @param $name
+     * @param $config
+     * @return array
+     */
+    public function createIndex($name, $config) {
+        return $this->request('/' . $name, 'PUT', $config, true);
+    }
+
     protected function passesTypeConstraint($constraint) {
         if (is_string($constraint)) $constraint = array($constraint);
         $currentType = explode(',', $this->type);
