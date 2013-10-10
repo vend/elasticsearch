@@ -167,6 +167,14 @@ class HTTP extends Base {
             $data = json_decode($response, true);
             if (!$data) {
                 $data = array('error' => $response, "code" => curl_getinfo($conn, CURLINFO_HTTP_CODE));
+            } else if (array_key_exists('error', $data)) {
+                $exception = new HTTPException("ElasticSearch error: " . $data['error']);
+                $exception->payload = $payload;
+                $exception->port = $this->port;
+                $exception->protocol = $protocol;
+                $exception->host = $this->host;
+                $exception->method = $method;
+                throw $exception;
             }
         }
         else {
